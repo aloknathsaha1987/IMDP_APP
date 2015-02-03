@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="google-api-services-youtube-v3-rev126-1.19.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/google-api-services-youtube-v3-rev126-1.19.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

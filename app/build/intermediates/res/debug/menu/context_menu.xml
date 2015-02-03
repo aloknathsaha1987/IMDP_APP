@@ -4,5 +4,9 @@
     <item
         android:id="@+id/addFavourite"
         android:title="@string/addFavourite" />
+    <item
+        android:id="@+id/Share"
+        android:title="@string/shareMovie"
+        />
 
 </menu><!-- From: file:/C:/Users/ALOKNATH/Desktop/IMDP_APP/app/src/main/res/menu/context_menu.xml -->

@@ -1,0 +1,40 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_upcoming"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/upcoming"/>
+
+    <item
+        android:id="@+id/menu_now_playing"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Now Playing"/>
+
+    <item
+        android:id="@+id/menu_top_rated"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/top_rated"/>
+
+    <item
+        android:id="@+id/menu_popular"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/popular"/>
+
+    <item
+        android:id="@+id/myFavourite"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/myFavourite"/>
+
+    <item
+        android:id="@+id/genreSelected"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title=""/>
+
+
+</menu><!-- From: file:/C:/Users/ALOKNATH/Desktop/IMDP_APP/app/src/main/res/menu/genre_main.xml -->

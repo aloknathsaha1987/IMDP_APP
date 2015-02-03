@@ -3,9 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <VideoView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/movie_trailer"
-        android:layout_gravity="center_horizontal" />
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/youtubeplayer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/eturl"
+        >
+    </com.google.android.youtube.player.YouTubePlayerView>
+
 </LinearLayout>

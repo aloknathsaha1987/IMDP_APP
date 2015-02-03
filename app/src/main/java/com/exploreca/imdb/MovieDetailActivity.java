@@ -1,5 +1,4 @@
 package com.exploreca.imdb;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +17,11 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.facebook.FacebookException;
+import com.facebook.FacebookOperationCanceledException;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
 import com.exploreca.imdb.movieCategory.MyMovies;
 import com.exploreca.imdb.movieCategory.NowPlayingMovies;
 import com.exploreca.imdb.movieCategory.PopularMovies;
@@ -28,11 +32,17 @@ import com.exploreca.imdb.db.MoviesDataSource;
 import com.exploreca.imdb.httpManager.HttpManager;
 import com.exploreca.imdb.model.Movie;
 import com.exploreca.imdb.parser.MovieJSONParser;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.FacebookDialog;
+import com.facebook.widget.WebDialog;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by ALOKNATH on 1/15/2015.
@@ -44,15 +54,19 @@ public class MovieDetailActivity extends Activity {
     private Button trailer_button;
     private String imageUrl;
     private Bitmap bitmapMovie;
-    private String movieDescription;
+    private static String movieDescription;
+    private UiLifecycleHelper uiLifecycleHelper;
+    public static List<String> videoIds;
    // private List<Movie> movies;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.movie_detail);
+        uiLifecycleHelper = new UiLifecycleHelper(this, null);
+        uiLifecycleHelper.onCreate(savedInstanceState);
+
 
         Bundle bundle = getIntent().getExtras();
 
@@ -60,6 +74,14 @@ public class MovieDetailActivity extends Activity {
         //Intent intent = getIntent();
         //movie.setBitmap((Bitmap) intent.getParcelableExtra("BitmapImage"));
         //Log.i("Movie_Poster", movie.getPoster_path());
+
+
+        new Thread(){
+            public void run(){
+                YoutubeConnector yc = new YoutubeConnector(MovieDetailActivity.this);
+                videoIds = yc.search(movie.getTitle());
+            }
+        }.start();
 
         String imageU = movie.getPoster_path();
 
@@ -103,6 +125,22 @@ public class MovieDetailActivity extends Activity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        uiLifecycleHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
+            @Override
+            public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+                Log.e("Activity", String.format("Error: %s", error.toString()));
+            }
+
+            @Override
+            public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+                Log.i("Activity", "Success!");
+            }
+        });
+    }
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.favourites, menu);
         MenuItem item = menu.findItem(R.id.addFavourite);
@@ -110,6 +148,55 @@ public class MovieDetailActivity extends Activity {
         return true;
     }
 
+    public void publishFeedDialog(Movie movie) {
+        Bundle params = new Bundle();
+        params.putString("name", movie.getTitle());
+        params.putString("caption", "This movie is Awesome !!!");
+        params.putString("description", movieDescription);
+        //params.putString("link", "https://developers.facebook.com/android");
+        params.putString("picture", "http://d3gtl9l2a4fn1j.cloudfront.net/t/p/w500" + movie.getPoster_path());
+
+        WebDialog feedDialog = (
+
+                new WebDialog.FeedDialogBuilder(this,
+                        Session.getActiveSession(),
+                        params))
+                .setOnCompleteListener(new WebDialog.OnCompleteListener() {
+
+                    @Override
+                    public void onComplete(Bundle values,
+                                           FacebookException error) {
+                        if (error == null) {
+                            // When the story is posted, echo the success
+                            // and the post Id.
+                            final String postId = values.getString("post_id");
+                            if (postId != null) {
+                                Toast.makeText(MovieDetailActivity.this,
+                                        "Posted story, id: "+postId,
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                // User clicked the Cancel button
+                                Toast.makeText(MovieDetailActivity.this.getApplicationContext(),
+                                        "Publish cancelled",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } else if (error instanceof FacebookOperationCanceledException) {
+                            // User clicked the "x" button
+                            Toast.makeText(MovieDetailActivity.this.getApplicationContext(),
+                                    "Publish cancelled",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Generic, ex: network error
+                            Toast.makeText(MovieDetailActivity.this.getApplicationContext(),
+                                    "Error posting story",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                })
+                .build();
+        feedDialog.show();
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -118,14 +205,58 @@ public class MovieDetailActivity extends Activity {
         switch (item.getItemId()){
 
             case R.id.share:
-                Uri imageUri = getImageUri(getApplicationContext(), bitmapMovie);
-                String movieToShare = movie.getOriginal_title() + ": This Movie is Awesome !! It's description: " + movieDescription ;
-                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                shareIntent.setType("image/*");
-                shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-                shareIntent.putExtra(Intent.EXTRA_TITLE, movieToShare);
-                startActivity(Intent.createChooser(shareIntent, "Share Via"));
+
+                //start Facebook Login
+
+                if (Session.getActiveSession() == null || !Session.getActiveSession().isOpened()) {
+                    Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+                        // callback when session changes state
+                        @Override
+                        public void call(Session session, SessionState state, Exception exception) {
+                            if (state.isOpened()) {
+
+                                // make request to the /me API
+                                Request.newMeRequest(session, new Request.GraphUserCallback() {
+
+                                    // callback after Graph API response with user object
+                                    @Override
+                                    public void onCompleted(GraphUser user, Response response) {
+                                        if (user != null) {
+
+                                            Toast.makeText(MovieDetailActivity.this, user.getName() + " Logged In...", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                }).executeAsync();
+                            }
+                        }
+                    });
+                } else {
+                    publishFeedDialog(movie);
+                }
+
+
+//                FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
+//                        .setLink("https://developers.facebook.com/android")
+//                        .build();
+//                uiLifecycleHelper.trackPendingDialogCall(shareDialog.present());
+
+//                intent = new Intent(Intent.ACTION_SEND);
+//                intent.setType("text/plain");
+//                String movieToShare = movie.getOriginal_title() + ": This Movie is Awesome !! It's description: " + movieDescription ;
+//                intent.putExtra(Intent.EXTRA_TEXT, movieToShare);
+//                startActivity(Intent.createChooser(intent, "Share with"));
+//
+//
+//
+//                Uri imageUri = getImageUri(getApplicationContext(), bitmapMovie);
+//                String movieToShare = movie.getOriginal_title() + ": This Movie is Awesome !! It's description: " + movieDescription ;
+//                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+//                //shareIntent.setType("image/*");
+//                shareIntent.setType("text/plain");
+//               // shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+//                shareIntent.putExtra(Intent.EXTRA_TITLE, movieToShare);
+//                startActivity(Intent.createChooser(shareIntent, "Share Via"));
                 break;
 
             case R.id.myFavourite:
@@ -169,13 +300,27 @@ public class MovieDetailActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		dataSource.open();
+        uiLifecycleHelper.onResume();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		dataSource.close();
+        uiLifecycleHelper.onPause();
 	}
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        uiLifecycleHelper.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        uiLifecycleHelper.onSaveInstanceState(outState);
+    }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();

@@ -21,5 +21,9 @@
     <string name="myFavourite">My Favourites</string>
     <string name="delete">Delete</string>
     <string name="search_hint">Search Text</string>
+    <string name="app_id">1539061459696068</string>
+    <string name="title_facebook_login">Facebook Login</string>
+    <string name="api_key">AIzaSyD50oH4rYjI0mo1hgio_YZxt4YxSUjgkUE</string>
+    <string name="shareMovie">Share</string>
 
 </resources>

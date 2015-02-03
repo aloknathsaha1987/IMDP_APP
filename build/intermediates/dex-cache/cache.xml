@@ -2,6 +2,27 @@
 <items version="2" >
 
     <item
+        jar="C:\adt-bundle-windows-x86-20140702\sdk\extras\android\m2repository\com\android\support\support-annotations\20.0.0\support-annotations-20.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa">
+        <dex dex="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\pre-dexed\debug\support-annotations-20.0.0-d269822cd75d574ddf5d2cb26f00403077a6b725.jar" />
+    </item>
+    <item
+        jar="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\libs\YouTubeAndroidPlayerApi.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="78b8f6e37921559ed21c1fae1f30f9f713494db8">
+        <dex dex="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\pre-dexed\debug\YouTubeAndroidPlayerApi-95e45730529207baedd2d70fad34ff4ef590d100.jar" />
+    </item>
+    <item
+        jar="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\libs\google-http-client-android-1.19.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="6c6feaf5b425588deeff573751e804ab8112297d">
+        <dex dex="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\pre-dexed\debug\google-http-client-android-1.19.0-6ec66cf827d77ff994c9c9ea71ba35ac55cf3bf4.jar" />
+    </item>
+    <item
         jar="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\libs\jdom-2.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -16,11 +37,81 @@
         <dex dex="C:\Users\ALOKNATH\AndroidstudioProjects\DeleteRows1\app\build\intermediates\pre-dexed\debug\jdom-2.0.3-5e4866dba99da7d81fd4f6a1aea4c61aed1fc11c.jar" />
     </item>
     <item
-        jar="C:\Users\ALOKNATH\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
+        jar="C:\Users\ALOKNATH\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-android\1.1.2\91c20388c9a45f62b5ed8fe0502bb76ff6251fc7\bolts-android-1.1.2.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="C:\Users\ALOKNATH\AndroidstudioProjects\DeleteRows1\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0-095e1de8e39aa85e2fb798dcebe52d3c3f2acc95.jar" />
+        sha1="91c20388c9a45f62b5ed8fe0502bb76ff6251fc7">
+        <dex dex="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\pre-dexed\debug\bolts-android-1.1.2-af728ef54c5fa7bd207ba67892f04c7d1c9e8e58.jar" />
+    </item>
+    <item
+        jar="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8694693636ab36910c8100ce527c258ff3ebece0">
+        <dex dex="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\pre-dexed\debug\classes-d5658f8ac30732b6221ea31de12ac1d0a296fde1.jar" />
+    </item>
+    <item
+        jar="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\libs\google-api-client-android-1.19.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="9ca854a50939c055dd2ed6f56b87faed655d4f84">
+        <dex dex="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\pre-dexed\debug\google-api-client-android-1.19.1-4f896fb2078173090795a74f8c8202371a50e067.jar" />
+    </item>
+    <item
+        jar="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\libs\google-api-client-1.19.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="a2d25cf954cc73fa203ec659c33b5c4ce9dd43e1">
+        <dex dex="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\pre-dexed\debug\google-api-client-1.19.1-7b6fa2971198cb87394055c1560de04cc21705a2.jar" />
+    </item>
+    <item
+        jar="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\libs\google-oauth-client-1.19.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2fed10f69dc8b06e174fe0ed39de04acd50c6078">
+        <dex dex="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\pre-dexed\debug\google-oauth-client-1.19.0-d968026ca9412ef224658200bb09592096bd84e2.jar" />
+    </item>
+    <item
+        jar="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\libs\google-api-services-youtube-v3-rev126-1.19.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f1e2a725e3278f7fbe26eead21188010a4745480">
+        <dex dex="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\pre-dexed\debug\google-api-services-youtube-v3-rev126-1.19.1-5dfcdf374fc2baa2116f02abb954eea5f7622301.jar" />
+    </item>
+    <item
+        jar="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\libs\google-http-client-1.19.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2073071a1b3d0aba693c8c786a137c0a67eee25b">
+        <dex dex="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\pre-dexed\debug\google-http-client-1.19.0-b9956ac0edf19c34b2faa9431eefc8ccfa1889fa.jar" />
+    </item>
+    <item
+        jar="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\libs\jackson-core-2.1.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f6c3aed1cdfa21b5c1737c915186ea93a95a58bd">
+        <dex dex="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\pre-dexed\debug\jackson-core-2.1.3-77183f8b9411bc4afbe3dcb89767e75c024e0119.jar" />
+    </item>
+    <item
+        jar="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\libs\google-http-client-jackson2-1.19.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="b4cfe8b930e2c8f537d37229da15e9c99a539d33">
+        <dex dex="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\pre-dexed\debug\google-http-client-jackson2-1.19.0-ddad06c9338fc0db7e3a60b977c29e5a615b83d5.jar" />
+    </item>
+    <item
+        jar="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d">
+        <dex dex="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-b35252b8204d5d3bb5e3aa5d98cb077801cfee3d.jar" />
+    </item>
+    <item
+        jar="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\3.21.1\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="0285ad8da812e92dda76ed5d0dcba05724c7911d">
+        <dex dex="C:\Users\ALOKNATH\Desktop\IMDP_APP\app\build\intermediates\pre-dexed\debug\classes-d0b15515d9d0e1b58f9e6750abbcfddd52b638d7.jar" />
     </item>
 
 </items>
