@@ -20,10 +20,14 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name="com.exploreca.imdb.MainActivity"
             android:clearTaskOnLaunch="true"
+            android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:stateNotNeeded="true" >
@@ -41,9 +45,12 @@
         </activity>
         <activity
             android:name="com.facebook.LoginActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_facebook_login" >
         </activity>
-        <activity android:name="com.exploreca.imdb.movieCategory.UpcomingMovies" >
+        <activity
+            android:name="com.exploreca.imdb.movieCategory.UpcomingMovies"
+            android:configChanges="orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -52,7 +59,9 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name="com.exploreca.imdb.movieCategory.NowPlayingMovies" >
+        <activity
+            android:name="com.exploreca.imdb.movieCategory.NowPlayingMovies"
+            android:configChanges="orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -61,7 +70,9 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name="com.exploreca.imdb.movieCategory.PopularMovies" >
+        <activity
+            android:name="com.exploreca.imdb.movieCategory.PopularMovies"
+            android:configChanges="orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -70,7 +81,9 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name="com.exploreca.imdb.movieCategory.TopRatedMovies" >
+        <activity
+            android:name="com.exploreca.imdb.movieCategory.TopRatedMovies"
+            android:configChanges="orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -79,8 +92,12 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name="com.exploreca.imdb.MovieDetailActivity" />
-        <activity android:name="com.exploreca.imdb.movieCategory.MyMovies" >
+        <activity
+            android:name="com.exploreca.imdb.MovieDetailActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name="com.exploreca.imdb.movieCategory.MyMovies"
+            android:configChanges="orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -89,10 +106,18 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name="com.exploreca.imdb.MovieTrailer" />
-        <activity android:name="com.exploreca.imdb.movieCategory.MovieGenre" />
-        <activity android:name="com.exploreca.imdb.MenuTest" />
-        <activity android:name="com.exploreca.imdb.movieCategory.GenreSelected" />
+        <activity
+            android:name="com.exploreca.imdb.MovieTrailer"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name="com.exploreca.imdb.movieCategory.MovieGenre"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name="com.exploreca.imdb.MenuTest"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name="com.exploreca.imdb.movieCategory.GenreSelected"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>

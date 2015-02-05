@@ -342,7 +342,7 @@ public class UpcomingMovies extends ListActivity {
                 tempMovieList.add(movie);
             }
         }else{
-            Toast.makeText(this, "No Search Results Found", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No Search Results Found", Toast.LENGTH_SHORT).show();
         }
         db.close();
         MovieAdapter adapter = new MovieAdapter(this, R.layout.item_movie, tempMovieList);
