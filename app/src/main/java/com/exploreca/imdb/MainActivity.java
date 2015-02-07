@@ -40,11 +40,6 @@ public class MainActivity extends Activity {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.raw.startup);
         ImageView image = (ImageView)findViewById(R.id.imageView);
         image.setImageBitmap(bitmap);
-        try {
-            Thread.sleep(2000, 123);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         intent = new Intent(this, NowPlayingMovies.class);
         startActivity(intent);
 	}

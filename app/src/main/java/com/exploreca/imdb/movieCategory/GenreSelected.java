@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.exploreca.imdb.GoogleLicense.GPSLicenseActivity;
 import com.exploreca.imdb.MovieDetailActivity;
 import com.exploreca.imdb.R;
 import com.exploreca.imdb.adapter.MovieAdapter;
@@ -267,6 +268,11 @@ public class GenreSelected extends ListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         switch(item.getItemId()){
+
+            case R.id.googlePlayLicense:
+                intent = new Intent(this, GPSLicenseActivity.class);
+                startActivity(intent);
+                break;
 
             case R.id.menu_upcoming:
                 intent = new Intent(this, UpcomingMovies.class);

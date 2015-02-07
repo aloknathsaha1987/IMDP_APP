@@ -36,5 +36,11 @@
         android:showAsAction="never"
         android:title=""/>
 
+    <item
+        android:id="@+id/googlePlayLicense"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Google Play License"/>
+
 
 </menu><!-- From: file:/C:/Users/ALOKNATH/Desktop/IMDP_APP/app/src/main/res/menu/genre_main.xml -->

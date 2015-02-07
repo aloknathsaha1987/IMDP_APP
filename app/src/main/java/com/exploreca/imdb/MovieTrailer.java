@@ -64,14 +64,7 @@ private YouTubePlayerView ytpv;
                 ytp.loadVideo(videoId);
                 break;
             }
-//            if(videoIds.isEmpty()){
-//                Toast.makeText(this,"VideoIds is Empty", Toast.LENGTH_LONG).show();
-//            }else{
-//                for (String videoId: videoIds){
-//                    ytp.loadVideo(videoId);
-//                    break;
-//                }
-//            }
+
         }
         Toast.makeText(this, movie.getTitle(), Toast.LENGTH_LONG).show();
     }

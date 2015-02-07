@@ -23,6 +23,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 
+import com.exploreca.imdb.GoogleLicense.GPSLicenseActivity;
 import com.exploreca.imdb.httpManager.HttpManager;
 import com.exploreca.imdb.adapter.MovieAdapter;
 import com.exploreca.imdb.MovieDetailActivity;
@@ -352,6 +353,11 @@ public class NowPlayingMovies extends ListActivity {
 
         Intent intent;
         switch(item.getItemId()){
+
+            case R.id.googlePlayLicense:
+                intent = new Intent(this, GPSLicenseActivity.class);
+                startActivity(intent);
+                break;
 
             case R.id.menu_upcoming:
                 intent = new Intent(this, UpcomingMovies.class);

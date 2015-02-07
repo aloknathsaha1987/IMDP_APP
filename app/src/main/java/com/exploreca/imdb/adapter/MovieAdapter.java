@@ -70,8 +70,8 @@ public class MovieAdapter extends ArrayAdapter<Movie> implements View.OnCreateCo
         tv.setText(movie.getTitle());
 
         RatingBar ratingBar = (RatingBar)view.findViewById(R.id.ratingBar);
-        ratingBar.setStepSize((float)0.25);
-        ratingBar.setRating((float)movie.getPopularity());
+        //ratingBar.setStepSize((float)0.1);
+        ratingBar.setRating((float)movie.getVote_average());
 
         Bitmap bitmap = imageCache.get(movie.getId());
 

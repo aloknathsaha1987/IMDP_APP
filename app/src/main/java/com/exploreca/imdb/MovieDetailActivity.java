@@ -1,9 +1,14 @@
 package com.exploreca.imdb;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,17 +42,31 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.WebDialog;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
  * Created by ALOKNATH on 1/15/2015.
  */
-public class MovieDetailActivity extends Activity {
+public class MovieDetailActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, LocationListener {
 
     private Movie movie;
     private MoviesDataSource dataSource;
@@ -57,24 +76,82 @@ public class MovieDetailActivity extends Activity {
     private static String movieDescription;
     private UiLifecycleHelper uiLifecycleHelper;
     public static List<String> videoIds;
-   // private List<Movie> movies;
+    boolean mShowMap;
 
+    private static final int GPS_ERRORDIALOG_REQUEST = 9001;
+    private static final float DEFAULTZOOM = 15;
+
+    LocationClient mLocationClient;
+    GoogleMap mMap;
+    LatLng latLng;
+    Marker marker;
+    private double latitude;
+    private double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.movie_detail);
+
         uiLifecycleHelper = new UiLifecycleHelper(this, null);
         uiLifecycleHelper.onCreate(savedInstanceState);
+
+        if (servicesOK()) {
+            setContentView(R.layout.movie_detail);
+
+            if (initMap()) {
+
+                LocationManager locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                    mLocationClient = new LocationClient(MovieDetailActivity.this, MovieDetailActivity.this, MovieDetailActivity.this);
+                    mLocationClient.connect();
+                    mShowMap = true;
+                }else{
+                    Toast.makeText(this, "Location Manager Not Available", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else {
+                Toast.makeText(this, "Map not available!", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            setContentView(R.layout.fragment_movie_detail);
+        }
 
 
         Bundle bundle = getIntent().getExtras();
 
         movie = (Movie)bundle.getParcelable(".model.Movie");
-        //Intent intent = getIntent();
-        //movie.setBitmap((Bitmap) intent.getParcelableExtra("BitmapImage"));
-        //Log.i("Movie_Poster", movie.getPoster_path());
 
+        dataSource = new MoviesDataSource(this);
+        dataSource.open();
+
+    }
+
+    public boolean servicesOK() {
+        int isAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+
+        if (isAvailable == ConnectionResult.SUCCESS) {
+            return true;
+        }
+        else if (GooglePlayServicesUtil.isUserRecoverableError(isAvailable)) {
+            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(isAvailable, this, GPS_ERRORDIALOG_REQUEST);
+            dialog.show();
+        }
+        else {
+            Toast.makeText(this, "Can't connect to Google Play services", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+
+    private boolean initMap() {
+        if(mMap == null){
+            MapFragment mapFragment = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
+            mMap = mapFragment.getMap();
+        }
+        return (mMap != null);
+    }
+
+    private void displayMovieDetail() throws IOException {
 
         new Thread(){
             public void run(){
@@ -106,8 +183,8 @@ public class MovieDetailActivity extends Activity {
         {"adult":false,"backdrop_path":"/bPG6DTTcvNVVD8tZif8GhvO67ab.jpg","id":253331,"original_title":"Black or White","release_date":"2015-01-30","poster_path":"/zAm9tSR92QsQFbghMaoj1lsCAAr.jpg","popularity":0.502964881512297,"title":"Black or White","video":false,"vote_average":0.0,"vote_count":0}
          */
         RatingBar ratingBar = (RatingBar)findViewById(R.id.ratingBar);
-        ratingBar.setStepSize((float)0.25);
-        ratingBar.setRating((float)movie.getPopularity());
+        //ratingBar.setStepSize((float)0.1);
+        ratingBar.setRating((float)movie.getVote_average());
 
         trailer_button = (Button)findViewById(R.id.button_trailer);
         trailer_button.setOnClickListener(new View.OnClickListener() {
@@ -119,9 +196,27 @@ public class MovieDetailActivity extends Activity {
             }
         });
 
-        dataSource = new MoviesDataSource(this);
-        dataSource.open();
+        locationClientConnectionStatus();
+    }
 
+    private void locationClientConnectionStatus() {
+        if(mShowMap){
+            if(mLocationClient.isConnected()) {
+                Location mLocation = mLocationClient.getLastLocation();
+                if (mLocation == null) {
+                    Toast.makeText(this, "My Location is not available", Toast.LENGTH_LONG).show();
+                } else {
+                    try {
+                        gotoCurrentLocation();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(this, "I'm Here", Toast.LENGTH_LONG).show();
+                }
+            }else{
+                Toast.makeText(this, "LocationClient is Not Connected", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
@@ -236,27 +331,6 @@ public class MovieDetailActivity extends Activity {
                 }
 
 
-//                FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
-//                        .setLink("https://developers.facebook.com/android")
-//                        .build();
-//                uiLifecycleHelper.trackPendingDialogCall(shareDialog.present());
-
-//                intent = new Intent(Intent.ACTION_SEND);
-//                intent.setType("text/plain");
-//                String movieToShare = movie.getOriginal_title() + ": This Movie is Awesome !! It's description: " + movieDescription ;
-//                intent.putExtra(Intent.EXTRA_TEXT, movieToShare);
-//                startActivity(Intent.createChooser(intent, "Share with"));
-//
-//
-//
-//                Uri imageUri = getImageUri(getApplicationContext(), bitmapMovie);
-//                String movieToShare = movie.getOriginal_title() + ": This Movie is Awesome !! It's description: " + movieDescription ;
-//                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-//                //shareIntent.setType("image/*");
-//                shareIntent.setType("text/plain");
-//               // shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-//                shareIntent.putExtra(Intent.EXTRA_TITLE, movieToShare);
-//                startActivity(Intent.createChooser(shareIntent, "Share Via"));
                 break;
 
             case R.id.myFavourite:
@@ -291,11 +365,68 @@ public class MovieDetailActivity extends Activity {
                 intent = new Intent(this, PopularMovies.class);
                 startActivity(intent);
                 break;
+
+            case R.id.menu_google_maps:
+                sendActionToIntent();
+                break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    protected void gotoCurrentLocation() throws IOException {
+
+        Location mLocation = mLocationClient.getLastLocation();
+        if(mLocation == null){
+            Toast.makeText(this, "My Location is not available", Toast.LENGTH_SHORT).show();
+        }else{
+            LatLng latLng = new LatLng(mLocation.getLatitude(),mLocation.getLongitude());
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng,DEFAULTZOOM);
+            mMap.animateCamera(cameraUpdate);
+            Geocoder gc = new Geocoder(this);
+            List<Address> list = gc.getFromLocation(mLocation.getLatitude(), mLocation.getLongitude(),1);
+            Address add = list.get(0);
+            String locality = add.getLocality();
+            String country = add.getCountryName();
+            latitude = mLocation.getLatitude();
+            longitude = mLocation.getLongitude();
+            setMarker(country, locality, mLocation.getLatitude(),mLocation.getLongitude());
+        }
+    }
+
+    public void setMarker(String country, String locality, double lat, double lng) {
+        if(marker != null){
+            marker.remove();
+        }
+
+        MarkerOptions markerOptions = new MarkerOptions()
+                .title(locality)
+                .position(new LatLng(lat, lng))
+                .anchor(.5f, .5f)
+                .icon(BitmapDescriptorFactory.defaultMarker(
+                        BitmapDescriptorFactory.HUE_CYAN
+                ))
+                .draggable(true);
+        if (country.length() > 0) {
+            markerOptions.snippet(country);
+        }
+        marker = mMap.addMarker(markerOptions);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void sendActionToIntent() {
+        StringBuilder uri = new StringBuilder("geo:");
+        uri.append(latitude);
+        uri.append(",");
+        uri.append(longitude);
+        uri.append("?z=10");
+        uri.append("&q=" + URLEncoder.encode("Movie Theatre"));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri.toString()));
+        startActivity(intent);
+
+    }
+
     @Override
 	protected void onResume() {
 		super.onResume();
@@ -327,6 +458,35 @@ public class MovieDetailActivity extends Activity {
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+        try {
+            displayMovieDetail();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        Toast.makeText(this,"Connected to the location services", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDisconnected() {
+        Toast.makeText(this,"Disconnected from the location services", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Toast.makeText(this,"Connection the location services Failed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        String msg = "Location" + location.getLatitude() + "," + location.getLongitude();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     private class MovieDetailContainer{

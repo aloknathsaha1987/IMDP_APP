@@ -77,7 +77,7 @@
     <string name="addFavourite">Add Favourites</string>
     <string name="api_key">AIzaSyD50oH4rYjI0mo1hgio_YZxt4YxSUjgkUE</string>
     <string name="app_id">1539061459696068</string>
-    <string name="app_name">IMDB</string>
+    <string name="app_name">My MoviesAlok</string>
     <!-- From: file:/C:/Users/ALOKNATH/Desktop/IMDP_APP/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.0.30/res/values/strings.xml -->
     <eat-comment/>
     <string name="auth_client_needs_enabling_title">

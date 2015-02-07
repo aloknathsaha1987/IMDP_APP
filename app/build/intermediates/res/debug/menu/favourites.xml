@@ -42,5 +42,11 @@
         android:showAsAction="never"
         android:title="@string/popular"/>
 
+    <item
+        android:id="@+id/menu_google_maps"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Theatre Near Me"/>
+
 
 </menu><!-- From: file:/C:/Users/ALOKNATH/Desktop/IMDP_APP/app/src/main/res/menu/favourites.xml -->
