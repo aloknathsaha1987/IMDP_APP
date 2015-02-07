@@ -50,20 +50,20 @@
     <splitter split-orientation="horizontal" split-proportion="0.7086743">
       <split-first>
         <leaf>
-          <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="strings.xml" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-2.52" vertical-offset="0" max-vertical-offset="714">
-                  <caret line="3" column="41" selection-start-line="3" selection-start-column="41" selection-end-line="3" selection-end-column="41" />
+                <state vertical-scroll-proportion="0.10606061" vertical-offset="0" max-vertical-offset="714">
+                  <caret line="3" column="42" selection-start-line="3" selection-start-column="42" selection-end-line="3" selection-end-column="42" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="MovieDetailActivity.java" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="MovieDetailActivity.java" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/src/main/java/com/exploreca/imdb/MovieDetailActivity.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.40484428" vertical-offset="8691" max-vertical-offset="11424">
+                <state vertical-scroll-proportion="-8.357142" vertical-offset="8691" max-vertical-offset="11424">
                   <caret line="425" column="30" selection-start-line="425" selection-start-column="30" selection-end-line="425" selection-end-column="30" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -1274,10 +1274,10 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_gps_license.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/exploreca/imdb/movieCategory/GenreSelected.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/genre_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/exploreca/imdb/MovieTrailer.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/favourites.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/exploreca/imdb/MovieDetailActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
       </list>
     </option>
   </component>
@@ -2719,14 +2719,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.52" vertical-offset="0" max-vertical-offset="714">
-          <caret line="3" column="41" selection-start-line="3" selection-start-column="41" selection-end-line="3" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/exploreca/imdb/MovieTrailer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.41584158" vertical-offset="504" max-vertical-offset="1533">
@@ -2745,7 +2737,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/exploreca/imdb/MovieDetailActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40484428" vertical-offset="8691" max-vertical-offset="11424">
+        <state vertical-scroll-proportion="-8.357142" vertical-offset="8691" max-vertical-offset="11424">
           <caret line="425" column="30" selection-start-line="425" selection-start-column="30" selection-end-line="425" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -2761,6 +2753,14 @@
             <element signature="e#13340#13341#0" expanded="true" />
             <element signature="e#16571#16603#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.10606061" vertical-offset="0" max-vertical-offset="714">
+          <caret line="3" column="42" selection-start-line="3" selection-start-column="42" selection-end-line="3" selection-end-column="42" />
+          <folding />
         </state>
       </provider>
     </entry>
